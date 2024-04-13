@@ -39,7 +39,7 @@ interface IApiService {
     suspend fun postLostfound(
         @Field("title") title: String,
         @Field("description") description: String,
-        @Field("status") status: Boolean,
+        @Field("status") status: String,
     ): DelcomAddLostfoundResponse
 
     @FormUrlEncoded
@@ -55,11 +55,11 @@ interface IApiService {
     suspend fun getLostfounds(
         @Query("is_completed") isCompleted: Int?,
         @Query("is_me") isMe : Int,
-        @Query("status") status: Boolean,
+        @Query("status") status: String,
     ): DelcomLostfoundsResponse
 
     @GET("lost-founds/{id}")
-    suspend fun getLostFound(
+    suspend fun getLostfound(
         @Path("id") lostfoundId: Int,
     ): DelcomLostfoundResponse
 

@@ -17,10 +17,10 @@ data class DelcomLostfoundsResponse(
 data class DataLostfoundsResponse(
 
 	@field:SerializedName("lost_founds")
-	val lostFounds: List<LostFoundsItemResponse>
+	val lostfounds: List<LostfoundsItemResponse>
 )
 
-data class LostFoundsItemResponse(
+data class LostfoundsItemResponse(
 
 	@field:SerializedName("cover")
 	val cover: String,
@@ -47,7 +47,7 @@ data class LostFoundsItemResponse(
 	val title: String,
 
 	@field:SerializedName("is_completed")
-	val isCompleted: Int,
+	var isCompleted: Int,
 
 	@field:SerializedName("status")
 	val status: String

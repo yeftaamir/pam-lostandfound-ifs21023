@@ -13,7 +13,22 @@
         android:theme="@style/Theme.LostAndFound"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.lostfound.LostfoundManageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.lostfound.LostfoundDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.profile.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.register.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.Login.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
