@@ -17,7 +17,7 @@ data class DelcomLostfoundsResponse(
 data class DataLostfoundsResponse(
 
 	@field:SerializedName("lost_founds")
-	val lostfounds: List<LostfoundsItemResponse>
+	val lostFounds: List<LostfoundsItemResponse>
 )
 
 data class LostfoundsItemResponse(

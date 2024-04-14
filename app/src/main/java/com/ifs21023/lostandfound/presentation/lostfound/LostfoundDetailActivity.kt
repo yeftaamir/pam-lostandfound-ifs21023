@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.ifs21023.lostandfound.data.model.DelcomLostfound
 import com.ifs21023.lostandfound.data.remote.MyResult
+import com.ifs21023.lostandfound.data.remote.response.LostFoundResponse
 import com.ifs21023.lostandfound.databinding.ActivityLostfoundDetailBinding
 import com.ifs21023.lostandfound.helper.Utils.Companion.observeOnce
 import com.ifs21023.lostandfound.presentation.ViewModelFactory
@@ -20,7 +21,6 @@ class LostfoundDetailActivity : AppCompatActivity() {
         ViewModelFactory.getInstance(this)
     }
     private var isChanged: Boolean = false
-
     private val launcher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -28,30 +28,24 @@ class LostfoundDetailActivity : AppCompatActivity() {
             recreate()
         }
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLostfoundDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setupView()
         setupAction()
     }
-
     private fun setupView() {
         showComponent(false.toString())
         showLoading(false)
     }
-
     private fun setupAction() {
         val lostfoundId = intent.getIntExtra(KEY_LOST_FOUND_ID, 0)
         if (lostfoundId == 0) {
             finish()
             return
         }
-
         observeGetLostfound(lostfoundId)
-
         binding.appbarLostfoundDetail.setNavigationOnClickListener {
             val resultIntent = Intent()
             resultIntent.putExtra(KEY_IS_CHANGED, isChanged)
@@ -59,7 +53,6 @@ class LostfoundDetailActivity : AppCompatActivity() {
             finishAfterTransition()
         }
     }
-
     private fun observeGetLostfound(lostfoundId: Int) {
         viewModel.getLostfound(lostfoundId).observeOnce { result ->
             when (result) {
@@ -85,7 +78,7 @@ class LostfoundDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadLostfound(lostfound: LostfoundResponse) {
+    private fun loadLostfound(lostfound: LostFoundResponse) {
         showComponent(true.toString())
 
         binding.apply {
@@ -93,34 +86,34 @@ class LostfoundDetailActivity : AppCompatActivity() {
             tvLostfoundDetailDate.text = "Dibuat pada: ${lostfound.createdAt}"
             tvLostfoundDetailDesc.text = lostfound.description
 
-            cbLostfoundDetailIsCompleted.isCompleted = lostfound.isCompleted == 1
-
-            cbLostfoundDetailIsCompleted.setOnCheckedChangeListener { _, isCompleted ->
+            cbLostfoundDetailIsCompleted.isChecked = lostfound.isCompleted == 1
+            cbLostfoundDetailIsCompleted.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.putLostfound(
                     lostfound.id,
                     lostfound.title,
                     lostfound.description,
-                    isCompleted
+                    lostfound.status,
+                    isChecked,
                 ).observeOnce {
                     when (it) {
                         is MyResult.Error -> {
-                            if (isCompleted) {
+                            if (isChecked) {
                                 Toast.makeText(
                                     this@LostfoundDetailActivity,
-                                    "Gagal menyelesaikan todo: " + lostfound.title,
+                                    "Gagal menyelesaikan lostfound: " + lostfound.title,
                                     Toast.LENGTH_SHORT
                                 ).show()
                             } else {
                                 Toast.makeText(
                                     this@LostfoundDetailActivity,
-                                    "Gagal batal menyelesaikan todo: " + lostfound.title,
+                                    "Gagal batal menyelesaikan lostfound: " + lostfound.title,
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
                         }
 
                         is MyResult.Success -> {
-                            if (isCompleted) {
+                            if (isChecked) {
                                 Toast.makeText(
                                     this@LostfoundDetailActivity,
                                     "Berhasil menyelesaikan todo: " + lostfound.title,
@@ -134,7 +127,7 @@ class LostfoundDetailActivity : AppCompatActivity() {
                                 ).show()
                             }
 
-                            if ((lostfound.isFinished == 1) != isCompleted) {
+                            if ((lostfound.isCompleted == 1) != isChecked) {
                                 isChanged = true
                             }
                         }
@@ -165,12 +158,11 @@ class LostfoundDetailActivity : AppCompatActivity() {
             ivLostfoundDetailActionEdit.setOnClickListener {
                 val delcomLostfound = DelcomLostfound(
                     lostfound.id,
+                    lostfound.userId,
                     lostfound.title,
                     lostfound.description,
-                    lostfound.isFinished == 1,
-                    lostfound.cover,
-                    lostfound.isMe,
-                    lostfound.status
+                    lostfound.status,
+                    lostfound.isCompleted == 1,
                 )
 
                 val intent = Intent(
@@ -178,7 +170,7 @@ class LostfoundDetailActivity : AppCompatActivity() {
                     LostfoundManageActivity::class.java
                 )
                 intent.putExtra(LostfoundManageActivity.KEY_IS_ADD, false)
-                intent.putExtra(LostfoundManageActivity.KEY_LOST_FOUND, delcomLostfound)
+                intent.putExtra(LostfoundManageActivity.KEY_LOST, delcomLostfound)
                 launcher.launch(intent)
             }
         }

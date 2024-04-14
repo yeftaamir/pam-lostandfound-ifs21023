@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ifs21023.lostandfound.data.remote.response.LostfoundsItemResponse
 import com.ifs21023.lostandfound.databinding.ItemRowLostfoundBinding
-
 class LostfoundAdapter :
     ListAdapter<LostfoundsItemResponse,
             LostfoundAdapter.MyViewHolder>(DIFF_CALLBACK) {
@@ -15,11 +14,9 @@ class LostfoundAdapter :
     private lateinit var onItemClickCallback: OnItemClickCallback
     private var originalData = mutableListOf<LostfoundAdapter>()
     private var filteredData = mutableListOf<LostfoundAdapter>()
-
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = ItemRowLostfoundBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -33,29 +30,28 @@ class LostfoundAdapter :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val data = originalData[originalData.indexOf(getItem(position))]
 
-        holder.binding.cbItemLostfoundIsCompleted.setOnCheckedChangeListener(null)
-        holder.binding.cbItemLostfoundFinished.setOnLongClickListener(null)
-
+        holder.binding.cbItemLostfoundCompleted.setOnCheckedChangeListener(null)
+        holder.binding.cbItemLostfoundCompleted.setOnLongClickListener(null)
         holder.bind(data)
 
-        holder.binding.cbItemLostfoundIsFinished.setOnCheckedChangeListener { _, isChecked ->
+        holder.binding.cbItemLostfoundCompleted.setOnCheckedChangeListener { _, isChecked ->
             data.isCompleted = if (isChecked) 1 else 0
             holder.bind(data)
             onItemClickCallback.onCheckedChangeListener(data, isChecked)
         }
 
-        holder.binding.ivItemLostfoundDetail.setOnClickListener {
+        holder.binding.ivItemLFDetail.setOnClickListener {
             onItemClickCallback.onClickDetailListener(data.id)
         }
     }
 
     class MyViewHolder(val binding: ItemRowLostfoundBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
         fun bind(data: LostfoundsItemResponse) {
             binding.apply {
                 tvItemLostfoundTitle.text = data.title
-                cbItemLostfoundIsFinished.isChecked = data.isCompleted == 1
+                bvStatus.text = data.status
+                cbItemLostfoundCompleted.isChecked = data.isCompleted == 1
             }
         }
     }
@@ -75,7 +71,6 @@ class LostfoundAdapter :
                 (it.title.contains(query, ignoreCase = true))
             }.toMutableList()
         }
-
         submitList(filteredData)
     }
 

@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".presentation.lostfound.LostfoundDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -18,7 +19,7 @@
             android:id="@+id/appbarLostfoundManage"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#0188A4"
+            android:background="@color/primary"
             app:navigationIcon="@drawable/ic_arrow_back_24"
             app:navigationIconTint="@color/white"
             app:title="Tambah Data"
@@ -45,6 +46,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="Judul"
+                android:textSize="16dp"
+                android:fontFamily="serif"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,6 +57,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Deskripsi"
+                android:textSize="16dp"
+                android:fontFamily="serif"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etLostfoundManageTitle" />
 
@@ -90,6 +95,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:textSize="16dp"
+                android:fontFamily="serif"
                 android:text="Status"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etLostfoundManageDesc" />
@@ -113,7 +120,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:text="Simpan"
+                android:fontFamily="serif"
                 android:textSize="14sp"
+                android:background="@color/primary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"

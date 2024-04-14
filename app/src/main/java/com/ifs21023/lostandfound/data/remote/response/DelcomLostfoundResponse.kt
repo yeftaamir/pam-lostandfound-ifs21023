@@ -14,7 +14,7 @@ data class DelcomLostfoundResponse(
 	val message: String
 )
 
-data class LostFound(
+data class LostFoundResponse(
 
 	@field:SerializedName("cover")
 	val cover: Any,
@@ -59,5 +59,5 @@ data class AuthorLostfoundResponse(
 data class DataLostfoundResponse(
 
 	@field:SerializedName("lost_found")
-	val lostFound: LostFound
+	val lostFound: LostFoundResponse
 )

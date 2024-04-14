@@ -43,28 +43,29 @@ interface IApiService {
     ): DelcomAddLostfoundResponse
 
     @FormUrlEncoded
-    @PUT("todos/{id}")
+    @PUT("lost-founds/{id}")
     suspend fun putLostfound(
-        @Path("id") lostfoundId: Int,
+        @Path("id") lostFoundId: Int,
         @Field("title") title: String,
         @Field("description") description: String,
+        @Field("status") status: String,
         @Field("is_completed") isCompleted: Int,
     ): DelcomResponse
 
     @GET("lost-founds")
     suspend fun getLostfounds(
         @Query("is_completed") isCompleted: Int?,
-        @Query("is_me") isMe : Int,
+        @Query("is_me") userId : Int?,
         @Query("status") status: String,
     ): DelcomLostfoundsResponse
 
     @GET("lost-founds/{id}")
     suspend fun getLostfound(
-        @Path("id") lostfoundId: Int,
+        @Path("id") lostFoundId: Int,
     ): DelcomLostfoundResponse
 
     @DELETE("lost-founds/{id}")
     suspend fun deleteLostfound(
-        @Path("id") todoId: Int,
+        @Path("id") lostFoundId: Int,
     ): DelcomResponse
 }
