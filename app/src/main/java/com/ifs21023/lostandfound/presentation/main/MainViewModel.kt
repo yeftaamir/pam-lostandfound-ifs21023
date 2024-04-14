@@ -6,7 +6,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.ifs21023.lostandfound.data.pref.UserModel
 import com.ifs21023.lostandfound.data.remote.MyResult
-import com.ifs21023.lostandfound.data.remote.response.DelcomLostfoundsResponse
+import com.ifs21023.lostandfound.data.remote.response.DelcomLostfoundResponse
 import com.ifs21023.lostandfound.data.remote.response.DelcomResponse
 import com.ifs21023.lostandfound.data.repository.AuthRepository
 import com.ifs21023.lostandfound.data.repository.LostfoundRepository
@@ -28,20 +28,21 @@ class MainViewModel(
         }
     }
 
-    fun getLostfounds(): LiveData<MyResult<DelcomLostfoundsResponse>> {
-        return lostfoundRepository.getLostfounds(null, 1, false).asLiveData()
+    fun getLostfound(lostFoundId: Int): LiveData<MyResult<DelcomLostfoundResponse>> {
+        return lostfoundRepository.getLostfound(lostFoundId).asLiveData()
     }
-
     fun putLostfound(
-        todoId: Int,
+        lostFoundId: Int,
         title: String,
         description: String,
+        status: String,
         isCompleted: Boolean,
     ): LiveData<MyResult<DelcomResponse>> {
-        return lostfoundRepository.putLostFound(
-            todoId,
+        return lostfoundRepository.putLostfound(
+            lostFoundId,
             title,
             description,
+            status,
             isCompleted,
         ).asLiveData()
     }

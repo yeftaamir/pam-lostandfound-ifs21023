@@ -12,8 +12,9 @@ class LostfoundAdapter :
             LostfoundAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     private lateinit var onItemClickCallback: OnItemClickCallback
-    private var originalData = mutableListOf<LostfoundAdapter>()
-    private var filteredData = mutableListOf<LostfoundAdapter>()
+    private var originalData = mutableListOf<LostfoundsItemResponse>()
+    private var filteredData = mutableListOf<LostfoundsItemResponse>()
+
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }
